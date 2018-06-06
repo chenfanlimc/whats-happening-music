@@ -14,9 +14,7 @@ $(document).ready(function () {
             "method": "POST",
             "headers": {
                 "Content-Type": "application/x-www-form-urlencoded",
-                "Authorization": "Basic MjNmZWQ0ZDk5M2M4NDNkZGJmODUwMDYyNTc1NWEzYTc6N2M4ZTE1NmNhMGJhNGUzNjliYTQwM2ZiNDVlNjBmNjI=",
-                "Cache-Control": "no-cache",
-                "Postman-Token": "594ed8e9-fb46-4cf1-a15b-1dcf86dec5d8"
+                "Authorization": "Basic MjNmZWQ0ZDk5M2M4NDNkZGJmODUwMDYyNTc1NWEzYTc6N2M4ZTE1NmNhMGJhNGUzNjliYTQwM2ZiNDVlNjBmNjI="
             },
             "data": {
                 "grant_type": "client_credentials"
@@ -38,9 +36,7 @@ $(document).ready(function () {
             "url": "https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/search?query=" + artist + "&offset=0&limit=20&type=artist",
             "method": "GET",
             "headers": {
-                "Authorization": "Bearer " + token,
-                "Cache-Control": "no-cache",
-                "Postman-Token": "6adeee84-40c9-4dc7-adb3-46e4fbc5d9aa"
+                "Authorization": "Bearer " + token
             }
         }
 
@@ -60,9 +56,7 @@ $(document).ready(function () {
             "url": "https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/artists/" + albumId + "/top-tracks?country=US",
             "method": "GET",
             "headers": {
-                "Authorization": "Bearer " + token,
-                "Cache-Control": "no-cache",
-                "Postman-Token": "45cfba93-e2d6-42ac-9d89-edd80abc0cf8"
+                "Authorization": "Bearer " + token
             }
         }
 
