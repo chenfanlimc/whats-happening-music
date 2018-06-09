@@ -2,9 +2,14 @@ $(document).ready(function () {
     var OAuthToken;
     var album_id
     var track_url;
-    var artist = "keane";
+    var artist;
 
-    ajaxToken();
+
+    $(".artist-search-button").on("click", function (response){
+        response.preventDefault();
+        artist = $(".artist-search-input").val();
+        ajaxToken();
+    })
 
     function ajaxToken() {
         var settings = {
