@@ -5,10 +5,11 @@ $(document).ready(function () {
     var artist;
 
 
-    $(".artist-search-button").on("click", function (response){
+    $(".artist-search-button").on("click", function (response) {
         response.preventDefault();
         artist = $(".artist-search-input").val();
-        ajaxToken();
+        ajaxInstagram(artist);
+        // ajaxToken();
     })
 
     function ajaxToken() {
@@ -86,14 +87,40 @@ $(document).ready(function () {
     //       "Postman-Token": "dba79417-af5d-4ac5-8410-7cfd7e1379ee"
     //     }
     //   }
-      
+
     //   $.ajax(settings).done(function (response) {
     //     console.log(response.items[0].id.videoId);
     //     videoId = response.items[0].id.videoId;
     //     $(".video").append('<iframe id="existing-iframe-example" scrolling="no" width="640" height="360" src="http://youtubeonrepeat.com/watch/?v=' + videoId +'" frameborder="0" style="border: solid 4px #37474F"></iframe>')
     //   });
 
+
+    function ajaxInstagram(artist){
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://www.instagram.com/explore/tags/" + artist + "/?__a=1",
+            "method": "GET",
+            "headers": {
+            }
+        }
     
+        $.ajax(settings).done(function (response) {
+            $(".containerInstagram").empty();
+            console.log(response);
+            for (var i = 0; i < response.graphql.hashtag.edge_hashtag_to_top_posts.edges.length; i++){
+                console.log(response.graphql.hashtag.edge_hashtag_to_top_posts.edges[i].node.display_url);
+                var url = response.graphql.hashtag.edge_hashtag_to_top_posts.edges[i].node.display_url;
+                var image_element = $("<img>");
+                image_element.attr("src", url);
+                image_element.attr("height", "250");
+                $(".containerInstagram").append(image_element);
+            }
+        });
+    }
+
+
+
 })
 
 
