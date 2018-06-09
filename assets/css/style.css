@@ -1,0 +1,25 @@
+.grad{
+    height: 1000px;
+    background: lightblue;
+    background: linear-gradient(#24c6dc,#514a9d);
+}
+.jumbotron{
+    background-color: transparent;
+    font-family: 'Cabin Sketch', cursive;
+    
+
+}
+
+h1{
+    font-size: 60px;
+}
+
+.container2{
+    float: left;
+
+
+}
+
+.container3{
+    float: right;
+}
