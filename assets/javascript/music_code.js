@@ -3,13 +3,14 @@ $(document).ready(function () {
     var album_id
     var track_url;
     var artist;
+    var artist_picture;
 
 
     $(".artist-search-button").on("click", function (response) {
         response.preventDefault();
         artist = $(".artist-search-input").val();
-        ajaxInstagram(artist);
-        // ajaxToken();
+        // ajaxInstagram(artist);
+        ajaxToken();
     })
 
     function ajaxToken() {
@@ -48,8 +49,13 @@ $(document).ready(function () {
 
         $.ajax(settings).then(function (response) {
             console.log(response);
-            console.log(response.artists.items[0].id)
             album_id = response.artists.items[0].id;
+            artist_picture = response.artists.items[0].images[0].url
+            $(".artist-profile").empty();
+            var image_element = $("<img>");
+            image_element.attr("src", artist_picture);
+            image_element.attr("height", "400");
+            $(".artist-profile").append(image_element);
             ajaxTopTrack(OAuthToken, album_id);
         });
 
@@ -68,8 +74,12 @@ $(document).ready(function () {
 
         $.ajax(settings).done(function (response) {
             console.log(response);
-            console.log(response.tracks[0].preview_url);
-            album_id = response.tracks[0].album.id;
+            for (var i = 0; i < response.tracks.length; i++) {
+                if(response.tracks[i].album.album_type === "album"){
+                    album_id = response.tracks[i].album.id;
+                    break
+                }
+            }
             album_url = "https://open.spotify.com/embed/album/" + album_id;
             $("#iframe-play").attr("src", album_url);
         });
@@ -95,29 +105,29 @@ $(document).ready(function () {
     //   });
 
 
-    function ajaxInstagram(artist){
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://www.instagram.com/explore/tags/" + artist + "/?__a=1",
-            "method": "GET",
-            "headers": {
-            }
-        }
-    
-        $.ajax(settings).done(function (response) {
-            $(".containerInstagram").empty();
-            console.log(response);
-            for (var i = 0; i < response.graphql.hashtag.edge_hashtag_to_top_posts.edges.length; i++){
-                console.log(response.graphql.hashtag.edge_hashtag_to_top_posts.edges[i].node.display_url);
-                var url = response.graphql.hashtag.edge_hashtag_to_top_posts.edges[i].node.display_url;
-                var image_element = $("<img>");
-                image_element.attr("src", url);
-                image_element.attr("height", "250");
-                $(".containerInstagram").append(image_element);
-            }
-        });
-    }
+    // function ajaxInstagram(artist){
+    //     var settings = {
+    //         "async": true,
+    //         "crossDomain": true,
+    //         "url": "https://www.instagram.com/explore/tags/" + artist + "/?__a=1",
+    //         "method": "GET",
+    //         "headers": {
+    //         }
+    //     }
+
+    //     $.ajax(settings).done(function (response) {
+    //         $(".containerInstagram").empty();
+    //         console.log(response);
+    //         for (var i = 0; i < response.graphql.hashtag.edge_hashtag_to_top_posts.edges.length; i++){
+    //             console.log(response.graphql.hashtag.edge_hashtag_to_top_posts.edges[i].node.display_url);
+    //             var url = response.graphql.hashtag.edge_hashtag_to_top_posts.edges[i].node.display_url;
+    //             var image_element = $("<img>");
+    //             image_element.attr("src", url);
+    //             image_element.attr("height", "250");
+    //             $(".containerInstagram").append(image_element);
+    //         }
+    //     });
+    // }
 
 
 
