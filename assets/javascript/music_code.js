@@ -8,6 +8,9 @@ $(document).ready(function () {
 
     $(".artist-search-button").on("click", function (response) {
         response.preventDefault();
+        $(".artist-profile").empty();
+        var slider = $("<div>").addClass("slider");
+        $(".artist-profile").append(slider);
         artist = $(".artist-search-input").val();
         // ajaxInstagram(artist);
         ajaxToken();
@@ -49,23 +52,50 @@ $(document).ready(function () {
 
         $.ajax(settings).then(function (response) {
             console.log(response);
-            album_id = response.artists.items[0].id;
+            artist_id = response.artists.items[0].id;
             artist_picture = response.artists.items[0].images[0].url
-            $(".artist-profile").empty();
+            console.log(artist_picture = response.artists.items[0].images[0].url)
             var image_element = $("<img>");
             image_element.attr("src", artist_picture);
             image_element.attr("height", "400");
-            $(".artist-profile").append(image_element);
-            ajaxTopTrack(OAuthToken, album_id);
+            var nested_img_element = $("<div>").append(image_element);
+            $(".slider").append(nested_img_element);
+            ajaxAlbumList(OAuthToken, artist_id);
+            ajaxTopTrack(OAuthToken, artist_id);
         });
 
     }
 
-    function ajaxTopTrack(token, albumId) {
+    function ajaxAlbumList(token, artist) {
         var settings = {
             "async": true,
             "crossDomain": true,
-            "url": "https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/artists/" + albumId + "/top-tracks?country=US",
+            "url": "https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/artists/" + artist + "/albums?market=US",
+            "method": "GET",
+            "headers": {
+                "Authorization": "Bearer " + token
+            }
+        }
+        $.ajax(settings).done(function (response) {
+            console.log(response.items);
+            var albumNameArr = [];
+            for (var i = 0; i < response.items.length; i++) {
+                if (!albumNameArr.includes(response.items[i].name)) {
+                    var album_img = response.items[i].images[0].url;
+                    insert_album(album_img);
+                    albumNameArr.push(response.items[i].name);
+                }
+            }
+            console.log(albumNameArr.includes("Revival"));
+            initiateBxSlider();
+        })
+    }
+
+    function ajaxTopTrack(token, artistId) {
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://cors-anywhere.herokuapp.com/https://api.spotify.com/v1/artists/" + artistId + "/top-tracks?country=US",
             "method": "GET",
             "headers": {
                 "Authorization": "Bearer " + token
@@ -75,13 +105,32 @@ $(document).ready(function () {
         $.ajax(settings).done(function (response) {
             console.log(response);
             for (var i = 0; i < response.tracks.length; i++) {
-                if(response.tracks[i].album.album_type === "album"){
+                if (response.tracks[i].album.album_type === "album") {
                     album_id = response.tracks[i].album.id;
+                    var album_img = response.tracks[i].album.images[0].url;
                     break
                 }
             }
             album_url = "https://open.spotify.com/embed/album/" + album_id;
             $("#iframe-play").attr("src", album_url);
+        });
+    }
+
+    function insert_album(album_img) {
+        var image_element = $("<img>");
+        image_element.attr("src", album_img);
+        image_element.attr("height", "400");
+        var nested_img_element = $("<div>").append(image_element);
+        $(".slider").append(nested_img_element);
+    }
+
+    function initiateBxSlider() {
+        $('.slider').bxSlider({
+            auto: true,
+            autoStart: true,
+            mode: "horizontal",
+            slideWidth: 420,
+            adaptiveHeight: true
         });
     }
 
