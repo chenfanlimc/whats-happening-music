@@ -6,12 +6,11 @@
 .jumbotron{
     background-color: transparent;
     font-family: 'Cabin Sketch', cursive;
-    
-
 }
 
 h1{
     font-size: 60px;
+    text-align: center;
 }
 
 .container2{
@@ -22,4 +21,12 @@ h1{
 
 .container3{
     float: right;
+}
+
+img {
+    width: 100%;
+}
+
+th {
+    font-size: 24px;
 }
