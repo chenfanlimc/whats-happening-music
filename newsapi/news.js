@@ -1,57 +1,78 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
-    $("#addArtist").on("click", function(){
+    $("#addArtist").on("click", function searchArtist() {
         console.log("Hi");
 
-        event.preventDefault() 
+        event.preventDefault()
+
+        $("#article-table").empty();
 
         var q = $("#artist-input").val();
-        
-        var url = 'https://newsapi.org/v2/everything?sources=mtv-news,buzzfeed,entertainment-weekly&language=en&q='+ q + '&sortBy=popularity&pageSize=5&apiKey=f585602033364272b3a51389129301fc';
+
+        console.log(q);
+
+        var url = 'https://newsapi.org/v2/everything?sources=mtv-news,buzzfeed,entertainment-weekly,mashable,the-lad-bible,the-huffington-post,mirror&language=en&q=' + q + '&sortBy=publishedAt&pageSize=5&apiKey=f585602033364272b3a51389129301fc';
 
         var response = new Request(url);
 
-        $.ajax({url: url, method: "GET"})
+        $.ajax({ url: url, method: "GET" })
 
-        .done(function(response){
+            .done(function (response) {
 
-        console.log(response);
+                console.log(response);
 
-        
-        for (var i = 0; i < response.articles.length; i++){
 
-            var headline = $("<th>").prepend(response.articles[i].title);
-            headline.text(response.articles[i].title);
+                for (var i = 0; i < response.articles.length; i++) {
 
-            var describe = $("<td>");
-            describe.text(response.articles[i].description);
+                    var linkTo = Object.values(response.articles[i])[4];
 
-            console.log(response.articles[i].description);
+                    var headline = $("<th>");
 
-            var imgUrl = Object.values(response.articles[i])[5]; 
+                    headline.addClass("linked");
 
-            $("<img>").prepend(imgUrl);
+                    $("#linked").append(linkTo);
 
-            console.log(imgUrl);
+                    console.log(linkTo);
 
-            var articleImg = $("<img>");
+                    headline.append(response.articles[i].title);
 
-            articleImg.attr("src", imgUrl);
+                    headline.text(response.articles[i].title);
 
-            articleImg.appendTo(articleDiv);
+                    console.log(response.articles[i].title);
 
-            $("#displayArticle").prepend(articleImg);
+                    var describe = $("<td>");
 
-            var articleDiv = $("<div>");
+                    describe.text(response.articles[i].description);
 
-            console.log();
+                    console.log(response.articles[i].description);
 
-            articleDiv.prepend(headline);
-            articleDiv.prepend(articleImg);
-            $("#article-table tbody").prepend("<tr><th>" + response.articles[i].title + "</th></tr>" + "<tr><td>" + "<img src=" + Object.values(response.articles[i])[5] + "></img>" + "</td></tr>" + "<tr><td>" + response.articles[i].description + "</td></tr>" )
-        
-            }
-        });
+                    var imgUrl = Object.values(response.articles[i])[5];
 
+                    $("<img>").append(imgUrl);
+
+                    console.log(imgUrl);
+
+                    var articleImg = $("<img>");
+
+                    articleImg.attr("src", imgUrl);
+
+                    articleImg.appendTo(articleDiv);
+
+                    $("#displayArticle").append(articleImg);
+
+                    var articleDiv = $("<div>");
+
+                    console.log();
+
+                    articleDiv.append(headline);
+                    articleDiv.append(articleImg);
+                    $("#article-table").append("<tr><th>" + response.articles[i].title + "</th></tr>" + "<tr><td>" + "<img src=" + Object.values(response.articles[i])[5] + "></img>" + "</td></tr>" + "<tr><td>" + response.articles[i].description + "</td></tr>")
+
+
+                    $("form").trigger("reset");
+
+                }
+            });
     });
+
 }); 
