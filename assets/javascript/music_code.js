@@ -5,7 +5,37 @@ $(document).ready(function () {
     var artist;
     var artist_picture;
 
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyC4Lopxflier0eeNKxefS9lRT14Cidv92E",
+        authDomain: "chlauper-52373.firebaseapp.com",
+        databaseURL: "https://chlauper-52373.firebaseio.com",
+        projectId: "chlauper-52373",
+        storageBucket: "",
+        messagingSenderId: "254415066304"
+    };
+    firebase.initializeApp(config);
 
+    var database = firebase.database();
+
+    database.ref().on("child_added", function (snapshot) {
+        console.log(snapshot.val().artist);
+        var artist_history_entry = $("<div>").text(snapshot.val().artist).addClass("artist-entry")
+        $(".artist-history").append(artist_history_entry);
+    })
+
+    $(".history-button").on("click", function (response) {
+        response.preventDefault();
+        $(".artist-history").toggle();
+    })
+
+    $(".clear-history-button").on("click", function(response){
+        response.preventDefault();
+        database.ref().set({
+            artist: null
+        })
+        $(".artist-history").remove();
+    })
 
     $(".artist-search-button").on("click", function (response) {
         response.preventDefault();
@@ -13,6 +43,10 @@ $(document).ready(function () {
         var slider = $("<div>").addClass("slider");
         $(".artist-profile").append(slider);
         artist = $(".artist-search-input").val();
+        var databaseVal = {
+            artist: artist
+        }
+        database.ref().push(databaseVal);
         // ajaxInstagram(artist);
         ajaxToken();
         newsApi();

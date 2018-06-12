@@ -30,3 +30,7 @@ img {
 th {
     font-size: 24px;
 }
+
+.artist-history{
+    display: none;
+}
