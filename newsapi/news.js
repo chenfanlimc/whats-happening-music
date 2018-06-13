@@ -9,9 +9,14 @@ $(document).ready(function () {
 
         var q = $("#artist-input").val();
 
+        if(q == 0){
+
+            return;false
+        }
+
         console.log(q);
 
-        var url = 'https://newsapi.org/v2/everything?sources=mtv-news,buzzfeed,entertainment-weekly,mashable,the-lad-bible,the-huffington-post,mirror&language=en&q=' + q + '&sortBy=publishedAt&pageSize=5&apiKey=f585602033364272b3a51389129301fc';
+        var url = 'https://newsapi.org/v2/everything?sources=mtv-news,buzzfeed,entertainment-weekly,mashable,the-lad-bible,the-huffington-post,mirror&language=en&q=' + q + '&sortBy=publishedAt&apiKey=f585602033364272b3a51389129301fc';
 
         var response = new Request(url);
 
@@ -21,6 +26,7 @@ $(document).ready(function () {
 
                 console.log(response);
 
+                var limitTo = 0
 
                 for (var i = 0; i < response.articles.length; i++) {
 
@@ -28,15 +34,7 @@ $(document).ready(function () {
 
                     var headline = $("<th>");
 
-                    headline.addClass("linked");
-
-                    $("#linked").append(linkTo);
-
                     console.log(linkTo);
-
-                    headline.append(response.articles[i].title);
-
-                    headline.text(response.articles[i].title);
 
                     console.log(response.articles[i].title);
 
@@ -48,29 +46,40 @@ $(document).ready(function () {
 
                     var imgUrl = Object.values(response.articles[i])[5];
 
-                    $("<img>").append(imgUrl);
-
                     console.log(imgUrl);
 
                     var articleImg = $("<img>");
 
                     articleImg.attr("src", imgUrl);
 
-                    articleImg.appendTo(articleDiv);
-
-                    $("#displayArticle").append(articleImg);
-
                     var articleDiv = $("<div>");
 
-                    console.log();
+
+                    console.log(typeof(response.articles[i].title));
+
+                    var title = response.articles[i].title;
+                    console.log(q);
+                    console.log(title);
+                    console.log(title.toLowerCase().includes(q));
+                    
+                    if(title.toLowerCase().includes(q) && limitTo < 5){
+                    
+                    
 
                     articleDiv.append(headline);
+                    articleImg.appendTo(articleDiv);
                     articleDiv.append(articleImg);
-                    $("#article-table").append("<tr><th>" + response.articles[i].title + "</th></tr>" + "<tr><td>" + "<img src=" + Object.values(response.articles[i])[5] + "></img>" + "</td></tr>" + "<tr><td>" + response.articles[i].description + "</td></tr>")
+                    
+
+                    $("#article-table").append("<tr><th>" + "<a target='_blank' href='" + linkTo + "'>" + response.articles[i].title + "</a>" + "</th></tr>" + "<tr><td>" + "<img src=" + Object.values(response.articles[i])[5] + "></img>" + "</td></tr>" + "<tr><td>" + response.articles[i].description + "</td></tr>")
+
+                    limitTo++
 
 
+                    }
                     $("form").trigger("reset");
-
+                   
+                    
                 }
             });
     });
