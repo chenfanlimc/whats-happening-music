@@ -26,18 +26,20 @@
 
 <body>
 
+    <!-- Is this section just for the background? -->
     <div class="grad">
 
-
-
+        <!-- Contains...everything -->
         <div class="container">
+            <!-- Jumbotron containing the title -->
             <div class="jumbotron">
                 <center>
                     <h1>What's Appening Music</h1>
                 </center>
 
             </div>
-            
+
+            <!-- This contains the search form -->
             <nav class="navbar navbar-light bg-transparent">
                 <form class="form-inline">
                     <input class="form-control mr-sm-2 artist-search-input" type="search" placeholder="Example: Beyonce" aria-label="Search">
@@ -45,21 +47,38 @@
                 </form>
             </nav>
 
+            <!-- This is the artist history section, we need to major style this -->
             <div class="artist-history">
 
             </div>
-            <button class="btn btn-dark my-2 my-sm-0 history-button" type="submit">History</button>
-            <button class="btn btn-dark my-2 my-sm-0 clear-history-button" type="submit">Clear History</button>
+            <div class="buttons">
+                <!-- This two buttons are for displaying the History section, and clearing the history (also clear in firebase) -->
+                <button class="btn btn-dark my-2 my-sm-0 history-button" type="submit">History</button>
+                <button class="btn btn-dark my-2 my-sm-0 clear-history-button" type="submit">Clear History</button>
+            </div>
 
-            <div class="card" style="width: 40rem;">
+            <!-- This contains the pictures of artist and album art -->
+            <div class="artist-profile">
+                <div class="slider">
+                </div>
+
+            </div>
+
+            <!-- This container contains the iframe used for the album preview player -->
+            <div class="container3">
+
+                <iframe id="iframe-play" src="" width="420" height="420" frameborder="0" allowtransparency="true"></iframe>
+
+            </div>
+
+            <!-- This section contains the news stories -->
+            <div class="card bg-transparent">
                 <div class="card-body">
                     <div id="displayArticle">
                         <div class="card-body">
                             <table class="table" id="article-table">
                                 <thead>
                                     <tr>
-                                        <h1>Top Stories</h1>
-
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -69,35 +88,8 @@
                     </div>
                 </div>
             </div>
-            
-
-
-            <div class="artist-profile">
-                <div class="slider">
-                </div>
-
-            </div>
-
-            <br>
-            <div class="container2">
-
-                <h2>MTV NEWS</h2>
-
-            </div>
-
-            <div class="container3">
-
-                <!-- <iframe id="existing-iframe-example" width="640" height="360" src="http://youtubeonrepeat.com/watch/?v=VDvr08sCPOc"
-                frameborder="0" style="border: solid 4px #37474F"></iframe> -->
-
-                <iframe id="iframe-play" src="" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
-
-
-            </div>
 
         </div>
-
-
 
 </body>
 

@@ -111,6 +111,8 @@ $(document).ready(function () {
                 }
                 // empty form input content?
                 $("form").trigger("reset");
+
+                $(".card-body").attr("style", "background-color: black;");
             };
         })
     }
