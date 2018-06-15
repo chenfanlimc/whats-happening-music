@@ -38,7 +38,7 @@ $(document).ready(function () {
         database.ref().set({
             artist: null
         })
-        $(".artist-history").remove();
+        $(".artist-history").empty();
     })
 
     //on artist search button, do a whole bunch of things like...
